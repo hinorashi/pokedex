@@ -7,7 +7,8 @@
 .settings
 bin
 build
-target
+target/*
+!target/*.jar
 dependency-reduced-pom.xml
 *.sublime-*
 /scratch
