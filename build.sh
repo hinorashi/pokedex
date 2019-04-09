@@ -1,4 +1,5 @@
 #!/bin/sh
 echo "build..."
-mvn clean install
+mvn clean install -DskipTests
+echo "Done!"
 
