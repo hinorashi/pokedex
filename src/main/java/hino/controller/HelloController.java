@@ -1,4 +1,4 @@
-package hello;
+package hino.controller;
 
 import java.io.IOException;
 import java.net.InetAddress;
