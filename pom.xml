@@ -12,6 +12,12 @@
   <artifactId>pokedex</artifactId>
   <version>1.0.0</version>
 
+  <properties>
+    <java.version>11</java.version>
+    <skipTests>true</skipTests>
+    <swagger.version>2.9.2</swagger.version>
+  </properties>
+
   <dependencies>
 
     <dependency>
@@ -50,12 +56,19 @@
       <scope>test</scope>
     </dependency>
 
-  </dependencies>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>${swagger.version}</version>
+    </dependency>
 
-  <properties>
-    <java.version>11</java.version>
-    <skipTests>false</skipTests>
-  </properties>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>${swagger.version}</version>
+    </dependency>
+
+  </dependencies>
 
   <build>
     <plugins>
