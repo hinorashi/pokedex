@@ -1,0 +1,106 @@
+openapi: 3.0.1
+
+info:
+  title: Pokedex REST API
+  description: Enjoy your pokedex!
+  version: '6.9'
+  termsOfService: http://example.com/
+  contact:
+    name: Hino
+    url: https://gitlab.com/hino-hatake
+    email: sinhngay3110@gmail.com
+  license:
+    name: 'Licence: WTFPL'
+    url: http://www.wtfpl.net/txt/copying/
+
+servers:
+  - url: 'http://localhost:8080'
+
+# We'll find out why tags do not match @Api at Controller class
+tags:
+  - name: hello
+    description: This is how we say hello in Zaun!
+  - name: pokedex
+    description: Your Pokedex
+
+paths:
+  # fake endpoint for example
+  /users:
+    get:
+      summary: Returns a list of users.
+      description: Optional extended description in Markdown.
+      responses:
+        200:
+          description: OK
+  # hello endpoint
+  /:
+    get:
+      tags:
+        - hello
+      summary: Say hello
+      description: Nothing to note...
+      operationId: indexUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        418:
+          description: I'm NOT a teapot!
+          content: {}
+      deprecated: false
+  # pokemon endpoint
+  /pokemons:
+    get:
+      tags:
+        - pokedex
+      summary: Let's take a look at your pokedex!
+      description: Reveal all your pokemons...
+      operationId: listUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pokemon'
+        418:
+          description: I'm NOT a teapot!
+          content: {}
+      deprecated: false
+
+components:
+  schemas:
+    Pokemon:
+      title: Pokemon
+      description: Your beloved pokemon
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Kanto Pokedex number
+          format: int32
+        moves:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        stat:
+          type: integer
+          description: Base stats in total
+          format: int32
+        types:
+          type: array
+          items:
+            type: string
+            enum:
+              - NORMAL
+              - FIRE
+              - WATER
+              - GRASS
+              - ELECTRIC
+              - GHOST
+              - POISON
