@@ -1,7 +1,6 @@
 package hino;
 
 import java.util.Collections;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
+import lombok.extern.slf4j.Slf4j;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
@@ -37,11 +37,12 @@ public class PokedexApplication {
   @Bean
   public Docket api() {
     return new Docket(DocumentationType.SWAGGER_2)
+        .host("localhost:8080") // TODO change to your deployment
         .select()
         .apis(RequestHandlerSelectors.basePackage("hino.controller"))
-//        .apis(RequestHandlerSelectors.any())
+        // .apis(RequestHandlerSelectors.any())
         .paths(PathSelectors.ant("/*"))
-//        .paths(PathSelectors.any())
+        // .paths(PathSelectors.any())
         .build()
         .apiInfo(apiInfo())
         .useDefaultResponseMessages(false)// override default response message
@@ -51,7 +52,7 @@ public class PokedexApplication {
                 .code(HttpStatus.I_AM_A_TEAPOT.value())
                 .message("I'm NOT a teapot!")
                 .build())
-        );
+            );
   }
 
   private ApiInfo apiInfo() {

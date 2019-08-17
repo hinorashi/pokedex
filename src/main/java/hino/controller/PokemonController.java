@@ -11,7 +11,7 @@ import hino.domain.Pokemon;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = "pokemon", description = "Your Pokedex")
+@Api(tags = "pokemon", description = "Your Pokemons")
 @RestController
 @RequestMapping(path = "pokemons")
 public class PokemonController {
