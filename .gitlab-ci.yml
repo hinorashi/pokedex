@@ -36,4 +36,5 @@ deploy1:
     - echo "Deploy..."
     - mvn clean package
     - nohup java -jar target/*.jar > nohup.out &
-    - curl localhost:8080
+    - ls -alF
+#    - curl localhost:8080
