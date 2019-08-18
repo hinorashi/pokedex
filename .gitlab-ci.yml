@@ -17,9 +17,8 @@ after_script:
 build1:
   stage: build
   script:
-    # - echo "Do your build here"
-    - echo "We should compile, test and package to save time..."
-    - mvn clean package
+    - echo "We should compile and test to save time..."
+    - mvn clean test
 
 #test1:
 #  stage: test
@@ -35,5 +34,6 @@ deploy1:
     # - echo "Do your deploy here"
     - apt-get install curl -qy
     - echo "Deploy..."
+    - mvn clean package
     - nohup java -jar target/*.jar > nohup.out &
     - curl localhost:8080
