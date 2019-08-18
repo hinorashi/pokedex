@@ -10,7 +10,7 @@ before_script:
 #   - echo "For example you might run an update here or install a build dependency"
 #   - echo "Or perhaps you might print out some debugging details"
   - echo "install jdk 11 and maven..."
-  - apt-get update -qq && apt-get install -qq openjdk-11-jre-headless -y && apt install -qq maven -y
+  - apt-get update -qq && apt-get install openjdk-11-jre-headless -qq -y && apt install maven -qq -y
   - java --version
   - mvn -v
 
@@ -44,5 +44,6 @@ deploy1:
   script:
     # - echo "Do your deploy here"
     - echo "Deploy..."
+    - mvn package
     - java -jar target/*.jar
     - curl localhost:8080
