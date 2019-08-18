@@ -2,16 +2,13 @@ stages:
  - build
  - deploy
 
-# image: busybox:latest
-# image: ubuntu:18.04
-
 before_script:
   - echo "Take a look at root dir..."
   - ls -alF /
 
 after_script:
   - echo "Let's see what we've got..."
-  - ls alF
+  - ls -alF
 
 cache:
   paths:
