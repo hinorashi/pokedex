@@ -45,5 +45,5 @@ deploy1:
     # - echo "Do your deploy here"
     - echo "Deploy..."
     - mvn package
-    - java -jar target/*.jar
+    - nohup java -jar target/*.jar &
     - curl localhost:8080
