@@ -36,5 +36,4 @@ deploy1:
     - apt-get install curl -qy
     - echo "Deploy..."
     - nohup java -jar target/*.jar > nohup.out &
-    - tail ./nohup.out -n 1
     - curl localhost:8080
