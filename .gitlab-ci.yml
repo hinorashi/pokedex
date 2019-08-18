@@ -6,8 +6,6 @@ stages:
 # image: ubuntu:18.04
 
 before_script:
-  - echo "Our project dir: $CI_PROJECT_DIR"
-  - echo "Say Hi to our Runner: $CI_RUNNER_DESCRIPTION"
   - echo "Take a look at root dir..."
   - ls -alF /
 
@@ -28,14 +26,6 @@ maven-build:
     - mvn -v
     - mvn clean package
 
-# test1:
-#  stage: test
-#  script:
-#     - echo "Do a test here"
-#     - echo "Unit test..."
-#     - mvn test
-#     - echo "For example run a test suite"
-
 heroku-deploy:
   stage: deploy
   image: ruby:2.3
@@ -44,5 +34,3 @@ heroku-deploy:
     - apt-get update -qy && apt-get install -y ruby-dev
     - gem install dpl
     - dpl --provider=heroku --app=hino-pokedex --api-key=$HEROKU_STAGING_API_KEY
-    - echo "Let's see what we've got..."
-    - ls -alF
