@@ -16,8 +16,8 @@ after_script:
   - ls alF
 
 cache:
- paths:
- - /root/.m2/repository
+  paths:
+    - /root/.m2/repository
 
 maven-build:
   stage: build
