@@ -1,26 +1,32 @@
+stages:
+ - build
+ - deploy
+
 # image: busybox:latest
-image: ubuntu:18.04
+# image: ubuntu:18.04
 
 before_script:
-  - echo "Before script section"
-#   - echo "For example you might run an update here or install a build dependency"
-#   - echo "Or perhaps you might print out some debugging details"
-  - echo "install jdk 11 and maven..."
-  - apt-get update -qq && apt-get install openjdk-11-jre-headless -qy && apt install maven -qy
-  - java --version
-  - mvn -v
+  - echo "Our project dir: $CI_PROJECT_DIR"
+  - echo "Say Hi to our Runner: $CI_RUNNER_DESCRIPTION"
+  - echo "Take a look at root dir..."
+  - ls -alF /
 
 after_script:
-  - echo "After script section"
-  - echo "For example you might do some cleanup here"
+  - echo "Let's see what we've got..."
+  - ls alF
+
+cache:
+ paths:
+ - /root/.m2/repository
 
 maven-build:
   stage: build
+  image: maven:3.6-jdk-11-slim
   script:
-    - echo "We should compile and test to save time..."
-    - mvn clean test
-    - echo "Let's see what we've got..."
-    - ls -alF
+    - echo "Let's verify java and maven first..."
+    - java --version
+    - mvn -v
+    - mvn clean package
 
 # test1:
 #  stage: test
@@ -30,12 +36,12 @@ maven-build:
 #     - mvn test
 #     - echo "For example run a test suite"
 
-heroku:
+heroku-deploy:
   stage: deploy
+  image: ruby:2.3
   script:
-    # - echo "Deploy..."
-    # - mvn clean package
     - echo "Deploy to Heroku..."
+    - apt-get update -qy && apt-get install -y ruby-dev
     - gem install dpl
     - dpl --provider=heroku --app=hino-pokedex --api-key=$HEROKU_STAGING_API_KEY
     - echo "Let's see what we've got..."
