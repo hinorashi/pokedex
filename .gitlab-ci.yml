@@ -14,27 +14,29 @@ after_script:
   - echo "After script section"
   - echo "For example you might do some cleanup here"
 
-build1:
+maven-build:
   stage: build
   script:
     - echo "We should compile and test to save time..."
     - mvn clean test
+    - echo "Let's see what we've got..."
+    - ls -alF
 
-#test1:
+# test1:
 #  stage: test
 #  script:
-    # - echo "Do a test here"
-#    - echo "Unit test..."
-#    - mvn test
-#    - echo "For example run a test suite"
+#     - echo "Do a test here"
+#     - echo "Unit test..."
+#     - mvn test
+#     - echo "For example run a test suite"
 
-deploy1:
+heroku:
   stage: deploy
   script:
-    # - echo "Do your deploy here"
-    - apt-get install curl -qy
-    - echo "Deploy..."
-    - mvn clean package
-    - nohup java -jar target/*.jar > nohup.out &
+    # - echo "Deploy..."
+    # - mvn clean package
+    - echo "Deploy to Heroku..."
+    - gem install dpl
+    - dpl --provider=heroku --app=hino-pokedex --api-key=$HEROKU_STAGING_API_KEY
+    - echo "Let's see what we've got..."
     - ls -alF
-#    - curl localhost:8080
