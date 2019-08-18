@@ -10,7 +10,7 @@ before_script:
 #   - echo "For example you might run an update here or install a build dependency"
 #   - echo "Or perhaps you might print out some debugging details"
   - echo "install jdk 11 and maven..."
-  - apt-get update -qq && apt-get install openjdk-11-jre-headless -qq -y && apt install maven -qq -y
+  - apt-get update -qq && apt-get install openjdk-11-jre-headless -qy && apt install maven -qy
   - java --version
   - mvn -v
 
@@ -43,7 +43,9 @@ deploy1:
   stage: deploy
   script:
     # - echo "Do your deploy here"
+    - apt-get install curl -qy
     - echo "Deploy..."
     - mvn package
     - nohup java -jar target/*.jar &
+    - tail nohup.out -n 1
     - curl localhost:8080
