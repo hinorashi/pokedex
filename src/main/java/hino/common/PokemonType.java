@@ -14,7 +14,8 @@ public enum PokemonType {
   GRASS("grass"),
   ELECTRIC("electric"),
   GHOST("ghost"),
-  POISON("poison");
+  POISON("poison"),
+  DRAGON("dragon");
 
   private String type;
 }
