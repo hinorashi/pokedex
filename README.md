@@ -1,5 +1,5 @@
 # Pokedex
-Let's see what can we do with our Pokedex
+Let's see what can we do with our Pokedex!
 
 ## Build and Run
 ```
