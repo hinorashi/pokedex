@@ -1,5 +1,7 @@
 package hino.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.time.LocalDateTime;
@@ -8,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 @Api(tags = "hello", description = "Say hello", protocols = "http")
 @RestController
@@ -24,5 +24,10 @@ public class HelloController {
         + "<br>I think you should check the time: <span style=\"color:red\">"
         + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"))
         + "</span>");
+  }
+
+  @GetMapping("/healthcheck")
+  public ResponseEntity<String> healthcheck() {
+    return ResponseEntity.ok().build();
   }
 }

@@ -12,6 +12,7 @@ mvn clean package && java -jar target/*.jar
 
 ## API Document via Swagger 2.0
 ```
-localhost:8080/swagger
-localhost:8080/swagger-ui.html
+http://localhost:8080
+http://localhost:8080/swagger
+http://localhost:8080/swagger-ui.html
 ```

@@ -37,7 +37,6 @@ public class PokedexApplication {
   @Bean
   public Docket api() {
     return new Docket(DocumentationType.SWAGGER_2)
-        .host("localhost:8080") // TODO change to your deployment
         .select()
         .apis(RequestHandlerSelectors.basePackage("hino.controller"))
         // .apis(RequestHandlerSelectors.any())
