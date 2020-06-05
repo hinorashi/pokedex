@@ -1,9 +1,14 @@
 package hino.domain;
 
-import hino.common.PokemonType;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.EAGER;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.List;
+import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,14 +19,20 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Pokemon {
 
+  /**
+   * id should be manually specified
+   */
+  @Id
   @ApiModelProperty("Kanto Pokedex number")
-  private int id;
+  private Integer id;
 
   private String name;
 
-  private List<PokemonType> types;
+  @ManyToMany(fetch = EAGER, cascade = ALL)
+  private Set<Type> types;
 
   /**
    * base stats in total
@@ -29,5 +40,6 @@ public class Pokemon {
   @ApiModelProperty("Base stats in total")
   private int stat;
 
-  private List<String> moves;
+  @ManyToMany(fetch = EAGER, cascade = ALL)
+  private Set<Move> moves;
 }

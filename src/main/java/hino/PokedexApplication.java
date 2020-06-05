@@ -1,14 +1,20 @@
 package hino;
 
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import hino.dao.PokemonRepository;
+import hino.dao.PokemonRepositoryCustom;
 import java.util.Collections;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RequestMethod;
-import lombok.extern.slf4j.Slf4j;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
@@ -21,7 +27,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Slf4j
 @EnableSwagger2
 @SpringBootApplication
+@EnableJpaRepositories
+@EnableTransactionManagement
 public class PokedexApplication {
+
+  @Autowired
+  private PokemonRepository pokemonRepository;
 
   public static void main(String[] args) {
     SpringApplication.run(PokedexApplication.class, args);
@@ -31,6 +42,7 @@ public class PokedexApplication {
   public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
     return args -> {
       log.info("You know it's running :)");
+      pokemonRepository.saveAll(PokemonRepositoryCustom.pokemonList);
     };
   }
 
@@ -51,7 +63,7 @@ public class PokedexApplication {
                 .code(HttpStatus.I_AM_A_TEAPOT.value())
                 .message("I'm NOT a teapot!")
                 .build())
-            );
+        );
   }
 
   private ApiInfo apiInfo() {
@@ -64,5 +76,10 @@ public class PokedexApplication {
         "Licence: WTFPL",
         "http://www.wtfpl.net/txt/copying/",
         Collections.emptyList());
+  }
+
+  @Bean
+  public com.fasterxml.jackson.databind.Module datatypeHibernateModule() {
+    return new Hibernate5Module();
   }
 }
