@@ -1,6 +1,6 @@
 stages:
- - build
- - deploy
+  - build
+  - deploy
 
 before_script:
   - echo "Take a look at root dir..."
@@ -11,8 +11,11 @@ after_script:
   - ls -alF
 
 cache:
+  key: $CI_COMMIT_REF_NAME
+  policy: pull
   paths:
-    - /root/.m2/repository
+    - "$CI_PROJECT_DIR/.m2/repository"
+    - "$CI_PROJECT_DIR/*/target"
 
 maven-build:
   stage: build
