@@ -11,6 +11,7 @@ after_script:
   - ls -alF
 
 cache:
+  # only effective if a single Runner is used for all our jobs, or distributed caching enabled
   key: $CI_COMMIT_REF_NAME
   policy: pull
   paths:
@@ -18,6 +19,8 @@ cache:
     - "$CI_PROJECT_DIR/*/target"
 
 maven-build:
+  tags:
+    - docker
   stage: build
   image: maven:3.6-jdk-11-slim
   script:
@@ -27,6 +30,9 @@ maven-build:
     - mvn clean package
 
 heroku-deploy:
+  tags:
+    - docker
+  when: manual
   stage: deploy
   image: ruby:2.3
   script:
