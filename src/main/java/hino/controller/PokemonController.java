@@ -32,10 +32,9 @@ public class PokemonController {
   /**
    * get a pokemon by its id, from National Pokedex
    */
-  @ApiOperation(value = "Let's take a look at your pokedex!", notes = "Reveal all your pokemons...", response = Pokemon.class)
+  @ApiOperation(value = "Let's take a look at your favorite pokemon!", notes = "Reveal your favorite pokemon...", response = Pokemon.class)
   @GetMapping("/{id}")
   public ResponseEntity<?> getOne(@PathVariable Integer id) {
     return ResponseEntity.ok(pokemonRepository.findById(id));
   }
-
 }

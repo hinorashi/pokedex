@@ -23,7 +23,8 @@ public class HelloController {
         + "<br>Here is your Inet Address: " + InetAddress.getLocalHost()
         + "<br>I think you should check the time: <span style=\"color:red\">"
         + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"))
-        + "</span>");
+        + "</span>"
+        + "<br>Take a look at the pokedex: <a style=\"color:red\" href=\"/pokemons/\">pokemons/</a>");
   }
 
   @GetMapping("/healthcheck")

@@ -1,8 +1,10 @@
 version: "3"
 services:
   pokedex:
+    build:
+      context: .
     # replace username/repo:tag with your name and image details
-    image: hinorashi/pokedex:release-1.0
+    image: hinorashi/pokedex
     container_name: pokedex
     deploy:
       replicas: 2

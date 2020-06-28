@@ -1,6 +1,7 @@
 package hino.controller;
 
 import java.net.URL;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ExtendWith(SpringExtension.class)
@@ -35,6 +35,7 @@ public class HelloControllerIT {
   public void hello() throws Exception {
     var response = template.getForEntity(base.toString(), String.class);
     log.info("body: {}", response.getBody());
+    Assertions.assertNotNull(response.getBody());
     Assertions.assertTrue(response.getBody().contains("Greetings from Hino!"), "Please re-check your greeting!");
   }
 }

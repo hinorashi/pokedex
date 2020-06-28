@@ -1,0 +1,3 @@
+# ignore everything except application jar file
+*
+!target/*.jar

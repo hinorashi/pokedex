@@ -1,6 +1,7 @@
 package hino.domain;
 
 import hino.common.PokemonType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,5 +21,6 @@ public class Type {
   @GeneratedValue
   private Integer id;
 
-  private PokemonType type;
+  @Column(nullable = false, unique = true)
+  private PokemonType name;
 }

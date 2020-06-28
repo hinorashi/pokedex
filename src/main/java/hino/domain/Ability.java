@@ -1,5 +1,7 @@
 package hino.domain;
 
+import hino.common.PokemonAbility;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,11 +15,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Move {
+public class Ability {
 
   @Id
   @GeneratedValue
   private Integer id;
 
-  private String move;
+  @Column(nullable = false, unique = true)
+  private PokemonAbility name;
+
+  private String description;
 }
