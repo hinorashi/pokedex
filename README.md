@@ -10,6 +10,11 @@ or
 mvn clean package && java -jar target/*.jar
 ```
 
+## Deploy with docker-compose
+```
+docker-compose up -d --build
+```
+
 ## API Document via Swagger 2.0
 ```
 http://localhost:8080
