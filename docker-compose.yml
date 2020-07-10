@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 services:
   pokedex:
     build:
@@ -6,6 +6,8 @@ services:
     # replace username/repo:tag with your name and image details
     image: hinorashi/pokedex
     container_name: pokedex
+    environment:
+      SPRING_PROFILES_ACTIVE: "cloud,h2"
     deploy:
       replicas: 2
       resources:
@@ -18,5 +20,18 @@ services:
       - "8080:8080"
     networks:
       - pokenet
+
+  redis-cache:
+    container_name: redis-cache
+    image: redis
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./data/redis-cache/:/data # FIXME not work as expected :))
+    command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
+    ports:
+      - "6379:6379"
+    networks:
+      - pokenet
+
 networks:
   pokenet:

@@ -1,6 +1,7 @@
 package hino.domain;
 
 import hino.common.PokemonType;
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Type {
+public class Type implements Serializable {
 
   @Id
   @GeneratedValue

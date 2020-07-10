@@ -6,6 +6,7 @@ import static javax.persistence.FetchType.EAGER;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -25,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Pokemon {
+public class Pokemon implements Serializable {
 
   /**
    * id should be manually specified
@@ -36,6 +37,12 @@ public class Pokemon {
 
   @Column(nullable = false, unique = true)
   private String name;
+
+  /**
+   * you can name your pokemon yourself
+   */
+  @Column(unique = true)
+  private String alias;
 
   @JoinTable(name = "pokemon_type", inverseJoinColumns = @JoinColumn(name = "type_id"))
   @Builder.Default

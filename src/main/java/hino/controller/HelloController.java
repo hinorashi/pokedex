@@ -27,7 +27,7 @@ public class HelloController {
         + "<br>Take a look at the pokedex: <a style=\"color:red\" href=\"/pokemons/\">pokemons/</a>");
   }
 
-  @GetMapping("/healthcheck")
+  @GetMapping("/health")
   public ResponseEntity<String> healthcheck() {
     return ResponseEntity.ok().build();
   }

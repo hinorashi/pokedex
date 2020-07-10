@@ -15,6 +15,13 @@ spring:
 #  datasource: # FIXME change to another DB
 #    url: jdbc:h2:mem:pokedex;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
+    client-name: redis-client
+
 management:
   server:
     port: 8081
@@ -43,3 +50,9 @@ spring:
       path: /h2
       settings:
         web-allow-others: true
+
+---
+spring:
+  profiles: cloud
+  redis:
+    host: redis-cache # refer docker-compose.yaml as an example
