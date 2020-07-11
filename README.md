@@ -1,6 +1,6 @@
 # Pokedex
 Let's see what can we do with our Pokedex!
-- We use `Spring boot cache` for caching frequently Pokedex queries, using `Redis`
+- We use `Spring boot cache` for caching frequently Pokedex queries, backed by `Redis`
 
 ## Build and Run
 ```

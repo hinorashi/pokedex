@@ -1,5 +1,8 @@
 package hino.service.impl;
 
+import static hino.common.Constant.POKEDEX_CACHE_NAME;
+import static hino.common.Constant.POKEMON_CACHE_NAME;
+
 import hino.dao.PokemonRepository;
 import hino.domain.Pokemon;
 import hino.service.PokemonService;
@@ -19,22 +22,22 @@ class PokemonServiceImpl implements PokemonService {
   private PokemonRepository pokemonRepository;
 
   @Override
-  @Cacheable("pokedex")
+  @Cacheable(POKEDEX_CACHE_NAME)
   public List<Pokemon> list() {
     return pokemonRepository.findAll();
   }
 
   @Override
-  @Cacheable(value = "pokemon", key = "#id")
+  @Cacheable(cacheNames = POKEMON_CACHE_NAME, key = "#id")
   public Optional<Pokemon> findById(Integer id) {
     return pokemonRepository.findById(id);
   }
 
   @Override
-  @CachePut(value = "pokemon", key = "#id")
+  @CachePut(cacheNames = POKEMON_CACHE_NAME, key = "#id")
   @Caching(evict = {
-      @CacheEvict(value = "pokedex", allEntries = true),
-      @CacheEvict(value = "pokemon", key = "#id")
+      @CacheEvict(cacheNames = POKEDEX_CACHE_NAME, allEntries = true),
+      @CacheEvict(cacheNames = POKEMON_CACHE_NAME, key = "#id")
   })
   public int updateBuddyName(Integer id, String alias) {
     return pokemonRepository.updateBuddyName(id, alias);
