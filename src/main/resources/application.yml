@@ -9,18 +9,22 @@ spring:
   jpa:
     open-in-view: false # disable database queries to be performed during view rendering
     show-sql: true
-#    properties:
-#      hibernate:
-#        format_sql: true
-#  datasource: # FIXME change to another DB
-#    url: jdbc:h2:mem:pokedex;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+  #    properties:
+  #      hibernate:
+  #        format_sql: true
+  #  datasource: # FIXME change to another DB
+  #    url: jdbc:h2:mem:pokedex;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 
   cache:
     type: redis
   redis:
-    host: localhost
-    port: 6379
-    client-name: redis-client
+    database: 1
+    client-name: pokedex
+    url: redis://pokedex:hino123@localhost:6379
+  data:
+    redis:
+      repositories:
+        enabled: false # we use redis for caching, not for data persistence
 
 management:
   server:
@@ -37,6 +41,10 @@ management:
     shutdown:
       enabled: true
     mappings:
+      enabled: true
+    configprops:
+      enabled: true
+    env:
       enabled: true
 
 ---
@@ -55,4 +63,4 @@ spring:
 spring:
   profiles: cloud
   redis:
-    host: redis-cache # refer docker-compose.yaml as an example
+    url: redis://pokedex:hino123@redis-cache:6379 # refer docker-compose.yaml as an example

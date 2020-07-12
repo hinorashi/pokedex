@@ -1,0 +1,3 @@
+user default on ~* +@all >hino123
+user hino on ~* +@all nopass
+user pokedex on ~pokedex:* ~pokemon:* +@all -@admin -@dangerous >pikachu
