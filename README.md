@@ -2,6 +2,7 @@
 Let's see what can we do with our Pokedex!
 - We use `Spring boot cache` for caching frequently Pokedex queries, backed by `Redis`
 - `Redis` cache is configured with `ACL` to improve security (available from Redis 6), for more detail pls refer its [topic](https://redis.io/topics/acl).
+- `Redis` cache secure connection is also enabled with one-way TLS.
 
 ## Build and Run
 ```
@@ -24,7 +25,8 @@ http://localhost:8080/swagger
 http://localhost:8080/swagger-ui.html
 ```
 
-## Tips and tricks
+## How to rock it up
+### 1. ACL
 - redis ACL example:
 ```
 user hino on ~* +@all >hino123
@@ -33,31 +35,22 @@ user hino on ~* +@all >hino123
 ```
 redis-cli -u redis://localhost:6379 --user pokedex -a pikachu -n 1
 ```
-- generate private key and CSR: (with Linux drop the part `MSYS_NO_PATHCONV=1`)
+
+### 2. One-way TLS/SSL
+- generate fake certificate stuffs:
 ```
-MSYS_NO_PATHCONV=1 openssl req \
-    -newkey rsa:2048 -nodes \
-    -keyout redis-cache.key -days 365 \
-    -out redis-cache.csr \
-    -subj '/C=VN/CN=redis-cache/emailAddress=sinhngay3110@gmail.com'
-```
-- generate private key and self-signed x509 certificate: (with Linux drop the part `MSYS_NO_PATHCONV=1`)
-```
-MSYS_NO_PATHCONV=1 openssl req \
-    -newkey rsa:2048 -nodes \
-    -keyout redis-cache.key -x509 -days 365 \
-    -out redis-cache.crt \
-    -subj '/C=VN/CN=redis-cache/emailAddress=sinhngay3110@gmail.com'
-```
-- check the certificate:
-```
-openssl x509 -text -noout -in redis-cache.crt
+cd redis
+./gen-test-certs.sh
 ```
 - create trust store:
 ```
 keytool -importcert -trustcacerts -noprompt \
     -keystore ./truststore.p12 \
     -file ./redis/tls/ca.crt \
-    -alias redis-cache-crt \
+    -alias redis-cache-ca \
     -storepass hino123
 ``` 
+- if test without docker, pls change the redis host into `redis-cache` instead of `localhost`, and update hosts config:
+```
+127.0.0.1 localhost redis-cache
+```

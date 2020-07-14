@@ -6,11 +6,14 @@ services:
     # replace username/repo:tag with your name and image details
     image: hinorashi/pokedex
     container_name: pokedex
-    command: ["-Djavax.net.ssl.trustStore=./truststore.p12", "-Djavax.net.ssl.trustStorePassword=hino123"] # FIXME won't work
+    # FIXME find a better way
+    entrypoint: ["java", "-jar", "-Djavax.net.debug=ssl:handshake", "-Djavax.net.ssl.trustStore=/truststore.p12", "-Djavax.net.ssl.trustStorePassword=hino123", "/app.jar"]
+    volumes:
+    - ./truststore.p12:/truststore.p12
     environment:
 #      SPRING_PROFILES_ACTIVE: "h2"
       SPRING_REDIS_SSL: "true"
-      SPRING_REDIS_URL: "rediss://pokedex:hino123@redis-cache:6379"
+      SPRING_REDIS_URL: "redis://pokedex:hino123@redis-cache:6379"
     deploy:
       replicas: 2
       resources:

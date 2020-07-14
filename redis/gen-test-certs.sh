@@ -10,13 +10,15 @@ openssl req \
     -x509 -new -nodes -sha256 \
     -key tls/ca.key \
     -days 3650 \
-    -subj '/O=Hino Corp/CN=Certificate Authority' \
+    -subj '/C=VN/O=Hino Corp/CN=Fake Certificate Authority' \
     -out tls/ca.crt
 openssl genrsa -out tls/redis.key 2048
+
+# the name redis-cache will be use as domain name for DNS lookup
 openssl req \
     -new -sha256 \
     -key tls/redis.key \
-    -subj '/O=Hino Corp/CN=Redis Cache' | \
+    -subj '/C=VN/O=Hino Corp/CN=redis-cache' | \
     openssl x509 \
         -req -sha256 \
         -CA tls/ca.crt \
