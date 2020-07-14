@@ -58,9 +58,3 @@ spring:
       path: /h2
       settings:
         web-allow-others: true
-
----
-spring:
-  profiles: cloud
-  redis:
-    url: redis://pokedex:hino123@redis-cache:6379 # refer docker-compose.yaml as an example

@@ -6,8 +6,11 @@ services:
     # replace username/repo:tag with your name and image details
     image: hinorashi/pokedex
     container_name: pokedex
+    command: ["-Djavax.net.ssl.trustStore=./truststore.p12", "-Djavax.net.ssl.trustStorePassword=hino123"] # FIXME won't work
     environment:
-      SPRING_PROFILES_ACTIVE: "cloud,h2"
+#      SPRING_PROFILES_ACTIVE: "h2"
+      SPRING_REDIS_SSL: "true"
+      SPRING_REDIS_URL: "rediss://pokedex:hino123@redis-cache:6379"
     deploy:
       replicas: 2
       resources:
@@ -24,13 +27,11 @@ services:
 
   redis-cache:
     container_name: redis-cache
-    image: redis
+    image: redis:6.0.5
     volumes:
       - ./redis:/etc/redis
       - ./data/redis-cache/:/data
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
-      - ./redis/users.acl:/etc/redis/users.acl
-    command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
+    command: ["redis-server", "/etc/redis/redis.conf"]
     ports:
       - "6379:6379" # debug purpose
     networks:

@@ -35,13 +35,29 @@ redis-cli -u redis://localhost:6379 --user pokedex -a pikachu -n 1
 ```
 - generate private key and CSR: (with Linux drop the part `MSYS_NO_PATHCONV=1`)
 ```
-MSYS_NO_PATHCONV=1 openssl req -newkey rsa:2048 -nodes -keyout redis-cache.key -days 365 -out redis-cache.csr -subj '/C=VN/CN=redis-cache/emailAddress=sinhngay3110@gmail.com'
+MSYS_NO_PATHCONV=1 openssl req \
+    -newkey rsa:2048 -nodes \
+    -keyout redis-cache.key -days 365 \
+    -out redis-cache.csr \
+    -subj '/C=VN/CN=redis-cache/emailAddress=sinhngay3110@gmail.com'
 ```
 - generate private key and self-signed x509 certificate: (with Linux drop the part `MSYS_NO_PATHCONV=1`)
 ```
-MSYS_NO_PATHCONV=1 openssl req -newkey rsa:2048 -nodes -keyout redis-cache.key -x509 -days 365 -out redis-cache.crt -subj '/C=VN/CN=redis-cache/emailAddress=sinhngay3110@gmail.com'
+MSYS_NO_PATHCONV=1 openssl req \
+    -newkey rsa:2048 -nodes \
+    -keyout redis-cache.key -x509 -days 365 \
+    -out redis-cache.crt \
+    -subj '/C=VN/CN=redis-cache/emailAddress=sinhngay3110@gmail.com'
 ```
 - check the certificate:
 ```
 openssl x509 -text -noout -in redis-cache.crt
 ```
+- create trust store:
+```
+keytool -importcert -trustcacerts -noprompt \
+    -keystore ./truststore.p12 \
+    -file ./redis/tls/ca.crt \
+    -alias redis-cache-crt \
+    -storepass hino123
+``` 
