@@ -7,7 +7,11 @@ services:
     image: hinorashi/pokedex
     container_name: pokedex
     # FIXME find a better way
-    entrypoint: ["java", "-jar", "-Djavax.net.debug=ssl:handshake", "-Djavax.net.ssl.trustStore=/truststore.p12", "-Djavax.net.ssl.trustStorePassword=hino123", "/app.jar"]
+    entrypoint: ["java", "-jar",
+                 "-Djavax.net.debug=ssl:handshake",
+                 "-Djavax.net.ssl.trustStore=/truststore.p12",
+                 "-Djavax.net.ssl.trustStorePassword=hino123",
+                 "/app.jar"]
     volumes:
     - ./truststore.p12:/truststore.p12
     environment:

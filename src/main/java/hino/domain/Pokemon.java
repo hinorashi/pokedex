@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 public class Pokemon implements Serializable {
 
   /**
-   * id should be manually specified
+   * Id should be manually specified.
    */
   @Id
   @ApiModelProperty("Kanto Pokedex number")
@@ -39,7 +39,7 @@ public class Pokemon implements Serializable {
   private String name;
 
   /**
-   * you can name your pokemon yourself
+   * You can name your pokemon yourself.
    */
   @Column(unique = true)
   private String alias;
@@ -50,7 +50,7 @@ public class Pokemon implements Serializable {
   private Set<Type> types = new HashSet<>();
 
   /**
-   * base stats in total
+   * Base stats in total.
    */
   @ApiModelProperty("Base stats in total")
   private int stat;

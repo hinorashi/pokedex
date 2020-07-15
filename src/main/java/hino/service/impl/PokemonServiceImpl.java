@@ -36,7 +36,7 @@ class PokemonServiceImpl implements PokemonService {
   @Override
   @CachePut(cacheNames = POKEMON_CACHE_NAME, key = "#id")
   @Caching(evict = {
-      @CacheEvict(cacheNames = POKEDEX_CACHE_NAME, allEntries = true),
+      @CacheEvict(POKEDEX_CACHE_NAME),
       @CacheEvict(cacheNames = POKEMON_CACHE_NAME, key = "#id")
   })
   public int updateBuddyName(Integer id, String alias) {

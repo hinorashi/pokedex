@@ -42,7 +42,7 @@ redis-cli -u redis://localhost:6379 --user pokedex -a pikachu -n 1
 cd redis
 ./gen-test-certs.sh
 ```
-- create trust store:
+- create trust store with keytool:
 ```
 keytool -importcert -trustcacerts -noprompt \
     -keystore ./truststore.p12 \
@@ -50,6 +50,14 @@ keytool -importcert -trustcacerts -noprompt \
     -alias redis-cache-ca \
     -storepass hino123
 ``` 
+- or using openssl:
+```
+openssl pkcs12 \
+    -inkey redis/tls/ca.key \
+    -in redis/tls/ca.crt \
+    -export -out truststore.p12 \
+    -password pass:hino123
+```
 - if test without docker, pls change the redis host into `redis-cache` instead of `localhost`, and update hosts config:
 ```
 127.0.0.1 localhost redis-cache

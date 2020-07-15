@@ -34,7 +34,7 @@ public class PokemonController {
   }
 
   /**
-   * get a pokemon by its id, from National Pokedex
+   * Get a pokemon by its id, from National Pokedex.
    */
   @GetMapping("/{id}")
   @ApiOperation(value = "Let's take a look at your favorite pokemon!", notes = "Reveal your favorite pokemon...", response = Pokemon.class)
@@ -43,7 +43,7 @@ public class PokemonController {
   }
 
   /**
-   * name your buddy
+   * Name your buddy.
    */
   @PatchMapping("/{id}")
   public ResponseEntity<?> nameYourBuddy(@PathVariable Integer id, @RequestBody AliasDto aliasDto) {

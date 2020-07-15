@@ -6,5 +6,5 @@ public interface Constant {
   int ALIAS_MAX_LENGTH = 30;
   String POKEDEX_CACHE_NAME = "pokedex";
   String POKEMON_CACHE_NAME = "pokemon";
-
+  String THE_ALMIGHTY_CACHE_KEY = "default";
 }
