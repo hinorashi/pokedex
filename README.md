@@ -36,28 +36,47 @@ user hino on ~* +@all >hino123
 redis-cli -u redis://localhost:6379 --user pokedex -a pikachu -n 1
 ```
 
-### 2. One-way TLS/SSL
-- generate fake certificate stuffs:
+### 2. One-way TLS
+- create new working dir to work with `TLS`, don't be lazy:
 ```
-cd redis
-./gen-test-certs.sh
+mkdir tls
 ```
-- create trust store with keytool:
+- create private key and CA cert: (*private key will be git ignored for security reason xD*)
 ```
-keytool -importcert -trustcacerts -noprompt \
-    -keystore ./truststore.p12 \
-    -file ./redis/tls/ca.crt \
-    -alias redis-cache-ca \
-    -storepass hino123
-``` 
-- or using openssl:
+MSYS_NO_PATHCONV=1 openssl req -x509 -keyout hino-root-CA.key -out hino-root-CA.crt -nodes -sha256 -newkey rsa:2048 -days 36500 -subj '/C=VN/CN=Hino Fake Certificate Authority'
+openssl x509 -text -noout -in hino-root-CA.crt
+openssl rsa -check -in hino-root-CA.key
 ```
-openssl pkcs12 \
-    -inkey redis/tls/ca.key \
-    -in redis/tls/ca.crt \
-    -export -out truststore.p12 \
-    -password pass:hino123
+- create private key and CSR for redis-cache:
 ```
+MSYS_NO_PATHCONV=1 openssl req -keyout redis-cache.key -out redis-cache.csr -nodes -sha256 -newkey rsa:2048 -subj '/C=VN/CN=redis-cache'
+openssl req -text -noout -verify -in redis-cache.csr
+openssl rsa -check -in redis-cache.key
+```
+- sign the CSR with our CA:
+```
+openssl x509 -req -CA hino-root-CA.crt -CAkey hino-root-CA.key -in redis-cache.csr -out redis-cache.crt -days 3650 -CAcreateserial
+openssl x509 -text -noout -in redis-cache.crt
+```
+- verify cert was signed by CA:
+```
+openssl verify -verbose -CAfile hino-root-CA.crt redis-cache.crt
+```
+- generate `PKCS12` truststore:
+```
+openssl pkcs12 -inkey hino-root-CA.key -in hino-root-CA.crt -export -out hino-truststore.p12 -password pass:hino123
+```
+- or with JDK keytool:
+```
+keytool -importcert -trustcacerts -noprompt -keystore hino-truststore.p12 -file hino-root-CA.crt -alias hino-root-ca -storepass hino123
+```
+- move stuffs to redis cache server:
+```
+mv redis-cache.key redis-cache.crt ../redis/tls/
+cp hino-root-CA.crt ../redis/tls/
+```
+- refer redis.conf and docker-compose.yaml for more detail
+
 - if test without docker, pls change the redis host into `redis-cache` instead of `localhost`, and update hosts config:
 ```
 127.0.0.1 localhost redis-cache

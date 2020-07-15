@@ -11,3 +11,4 @@ target/
 *.iml
 *.out
 /data/
+hino-root-CA.key

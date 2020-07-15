@@ -9,11 +9,11 @@ services:
     # FIXME find a better way
     entrypoint: ["java", "-jar",
                  "-Djavax.net.debug=ssl:handshake",
-                 "-Djavax.net.ssl.trustStore=/truststore.p12",
+                 "-Djavax.net.ssl.trustStore=/hino-truststore.p12",
                  "-Djavax.net.ssl.trustStorePassword=hino123",
                  "/app.jar"]
     volumes:
-    - ./truststore.p12:/truststore.p12
+    - ./tls/hino-truststore.p12:/hino-truststore.p12
     environment:
 #      SPRING_PROFILES_ACTIVE: "h2"
       SPRING_REDIS_SSL: "true"
