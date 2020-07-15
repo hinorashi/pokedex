@@ -62,13 +62,10 @@ openssl x509 -text -noout -in redis-cache.crt
 ```
 openssl verify -verbose -CAfile hino-root-CA.crt redis-cache.crt
 ```
-- generate `PKCS12` truststore:
-```
-openssl pkcs12 -inkey hino-root-CA.key -in hino-root-CA.crt -export -out hino-truststore.p12 -password pass:hino123
-```
-- or with JDK keytool:
+- generate `PKCS12` truststore with JDK keytool:
 ```
 keytool -importcert -trustcacerts -noprompt -keystore hino-truststore.p12 -file hino-root-CA.crt -alias hino-root-ca -storepass hino123
+keytool -list -keystore hino-truststore.p12 -storepass hino123
 ```
 - move stuffs to redis cache server:
 ```
@@ -80,4 +77,24 @@ cp hino-root-CA.crt ../redis/tls/
 - if test without docker, pls change the redis host into `redis-cache` instead of `localhost`, and update hosts config:
 ```
 127.0.0.1 localhost redis-cache
+```
+### 3. Two-way TLS (mutual TLS)
+- let's generate new private key and CSR for our pokedex server:
+```
+MSYS_NO_PATHCONV=1 openssl req -keyout pokedex.key -out pokedex.csr -nodes -sha256 -newkey rsa:2048 -subj '/C=VN/CN=pokedex'
+```
+- sign them with our CA:
+```
+openssl x509 -req -CA hino-root-CA.crt -CAkey hino-root-CA.key -in pokedex.csr -out pokedex.crt -days 3650 -CAcreateserial
+openssl verify -verbose -CAfile hino-root-CA.crt pokedex.crt
+```
+- create keystore:
+```
+openssl pkcs12 -export -in pokedex.crt -inkey pokedex.key -out pokedex-keystore.p12 -name pokedex -password pass:hino123
+keytool -list -keystore hino-truststore.p12 -storepass hino123
+```
+- move stuffs:
+```
+mv pokedex-keystore.p12 ../src/main/resources/
+cp hino-truststore.p12 ../src/main/resources/
 ```

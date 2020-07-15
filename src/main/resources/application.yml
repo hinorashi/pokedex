@@ -1,5 +1,16 @@
 server:
   port: 8080
+  ssl:
+    enabled: true
+    protocol: TLS
+    client-auth: none
+    key-store-type: PKCS12
+    key-store: classpath:pokedex-keystore.p12
+    key-store-password: hino123
+    key-alias: pokedex
+    trust-store-type: PKCS12
+    trust-store: classpath:hino-truststore.p12
+    trust-store-password: hino123
 
 spring:
   profiles:
@@ -46,6 +57,9 @@ management:
       enabled: true
     env:
       enabled: true
+  health:
+    redis:
+      enabled: false
 
 ---
 spring:
